@@ -13,6 +13,8 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@scrabble-solver/dictionaries": "^2.13.13",
+		"@scrabble-solver/types": "^2.13.13",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
