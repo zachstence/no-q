@@ -2,22 +2,31 @@
 	import { nanoid } from 'nanoid';
 
 	import Position from './Position.svelte';
-	import { dndzone } from 'svelte-dnd-action';
+	import { dndzone, type DndEvent } from 'svelte-dnd-action';
 	import { flip } from 'svelte/animate';
 	import Letter from './Letter.svelte';
+	import { writable } from 'svelte/store';
 
 	export let letters: string[];
 
-	let bank: {
+	type Item = {
 		id: string;
 		letter: string;
-	}[] = letters.map((letter) => ({ id: nanoid(), letter }));
+	};
+
+	const bank = writable<Item[]>(letters.map((letter) => ({ id: nanoid(), letter })));
 
 	const flipDurationMs = 150;
 
 	const shuffleBank = (): void => {
-		bank = bank.sort(() => Math.random() - 0.5);
+		$bank = $bank.sort(() => Math.random() - 0.5);
 	};
+
+	const onConsiderOrFinalize = (e: CustomEvent<DndEvent<Item>>) => {
+		$bank = e.detail.items;
+	};
+
+	$: console.log(`bank: ${$bank.map((item) => item.letter).join(' ')}`);
 </script>
 
 <div class="flex flex-col items-center gap-6">
@@ -35,11 +44,11 @@
 		<div />
 		<div
 			class="grid h-fit w-fit grid-cols-6 grid-rows-2 gap-1 place-self-center rounded-lg bg-gray-100 p-4"
-			use:dndzone={{ items: bank, flipDurationMs, dropTargetStyle: {} }}
-			on:consider={(e) => (bank = e.detail.items)}
-			on:finalize={(e) => (bank = e.detail.items)}
+			use:dndzone={{ items: $bank, flipDurationMs, dropTargetStyle: {} }}
+			on:consider={onConsiderOrFinalize}
+			on:finalize={onConsiderOrFinalize}
 		>
-			{#each bank as item (item.id)}
+			{#each $bank as item (item.id)}
 				<div animate:flip={{ duration: flipDurationMs }}>
 					<Letter>{item.letter}</Letter>
 				</div>
