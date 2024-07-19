@@ -2,19 +2,42 @@
 	import { nanoid } from 'nanoid';
 
 	import Position from './Position.svelte';
-	import { dndzone, type DndEvent } from 'svelte-dnd-action';
+	import { dndzone } from 'svelte-dnd-action';
 	import { flip } from 'svelte/animate';
 	import Letter from './Letter.svelte';
-	import { writable } from 'svelte/store';
+	import { derived, writable } from 'svelte/store';
+	import type { Item } from './item';
 
 	export let letters: string[];
 
-	type Item = {
-		id: string;
-		letter: string;
+	const bank = writable<Item[]>(letters.map((letter) => ({ id: nanoid(), letter })));
+	type Board = {
+		[row: number]: {
+			[col: number]: Item;
+		};
 	};
 
-	const bank = writable<Item[]>(letters.map((letter) => ({ id: nanoid(), letter })));
+	type PositionStoreValue = {
+		row: number;
+		col: number;
+		item?: Item;
+	};
+	const createPositionStore = (row: number, col: number) =>
+		writable<PositionStoreValue>({ row, col });
+
+	const positionStores = Array.from({ length: 12 }).flatMap((_, r) =>
+		Array.from({ length: 12 }).map((_, c) => createPositionStore(r, c))
+	);
+
+	const board = derived(positionStores, ($positionStores) => {
+		const board: Board = {};
+		$positionStores.forEach((p) => {
+			if (!p.item) return;
+			if (!board[p.row]) board[p.row] = {};
+			board[p.row][p.col] = p.item;
+		});
+		return board;
+	});
 
 	const flipDurationMs = 150;
 
@@ -22,20 +45,15 @@
 		$bank = $bank.sort(() => Math.random() - 0.5);
 	};
 
-	const onConsiderOrFinalize = (e: CustomEvent<DndEvent<Item>>) => {
-		$bank = e.detail.items;
-	};
-
-	$: console.log(`bank: ${$bank.map((item) => item.letter).join(' ')}`);
+	$: console.log({ bank: $bank });
+	$: console.log({ board: $board });
 </script>
 
 <div class="flex flex-col items-center gap-6">
 	<!-- Grid -->
 	<div class="grid h-fit w-fit grid-cols-12 grid-rows-12 gap-1">
-		{#each Array.from({ length: 12 }) as _}
-			{#each Array.from({ length: 12 }) as _}
-				<Position {flipDurationMs} />
-			{/each}
+		{#each positionStores as position}
+			<Position {flipDurationMs} {position} />
 		{/each}
 	</div>
 
@@ -45,8 +63,8 @@
 		<div
 			class="grid h-fit w-fit grid-cols-6 grid-rows-2 gap-1 place-self-center rounded-lg bg-gray-100 p-4"
 			use:dndzone={{ items: $bank, flipDurationMs, dropTargetStyle: {} }}
-			on:consider={onConsiderOrFinalize}
-			on:finalize={onConsiderOrFinalize}
+			on:consider={(e) => ($bank = e.detail.items)}
+			on:finalize={(e) => ($bank = e.detail.items)}
 		>
 			{#each $bank as item (item.id)}
 				<div animate:flip={{ duration: flipDurationMs }}>
