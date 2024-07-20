@@ -3,18 +3,20 @@
 	import type { Item } from './item';
 	import Letter from './Letter.svelte';
 
-	export let items: Item[];
+	export let item: Item | undefined = undefined;
+
+	$: items = item ? [item] : [];
 </script>
 
 <div
 	class="aspect-square h-12 w-12 rounded-md bg-stone-900 transition-colors duration-100"
 	use:dndzone={{ items }}
-	on:consider={(e) => (items = e.detail.items)}
-	on:finalize={(e) => (items = e.detail.items)}
+	on:consider={(e) => (item = e.detail.items[0])}
+	on:finalize={(e) => (item = e.detail.items[0])}
 >
-	{#if items[0]}
+	{#if item}
 		<Letter>
-			{items[0].letter}
+			{item.letter}
 		</Letter>
 	{/if}
 </div>

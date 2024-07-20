@@ -8,13 +8,13 @@
 		letter: 'X'
 	};
 
-	let items1: Item[] = [item];
-	let items2: Item[] = [];
+	let item1: Item | undefined = item;
+	let item2: Item | undefined = undefined;
 
-	$: console.log({ items1, items2 });
+	$: console.log({ item1, item2 });
 </script>
 
 <div class="flex flex-row gap-4">
-	<Cell bind:items={items1} />
-	<Cell bind:items={items2} />
+	<Cell bind:item={item1} />
+	<Cell bind:item={item2} />
 </div>
