@@ -6,12 +6,13 @@
 
 	export let cells: CellStore[][];
 
-	$: d = cells.length;
+	$: rows = cells.length;
+	$: cols = cells[0].length;
 </script>
 
 <div
-	class="h-full w-full {clazz} grid gap-1"
-	style="grid-template: repeat({d}, 1fr) / repeat({d}, 1fr);"
+	class="h-fit w-fit {clazz} grid gap-1"
+	style="grid-template: repeat({rows}, 1fr) / repeat({cols}, 1fr);"
 >
 	{#each cells as row}
 		{#each row as cell}

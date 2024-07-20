@@ -31,7 +31,7 @@
 </script>
 
 <div
-	class="aspect-square rounded-md bg-stone-900 transition-colors duration-100"
+	class="aspect-square h-12 w-12 rounded-md bg-stone-900 transition-colors duration-100"
 	class:bg-stone-600={considering}
 	use:dndzone={{
 		items,
