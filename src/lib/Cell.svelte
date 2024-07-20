@@ -3,11 +3,13 @@
 	import type { Item } from './item';
 	import Letter from './Letter.svelte';
 	import { flip } from 'svelte/animate';
+	import type { Writable } from 'svelte/store';
 
-	export let item: Item | undefined = undefined;
+	export let cell: Writable<Item | undefined>;
+
 	export let flipDurationMs = 150;
 
-	let _item: Item | undefined = item;
+	$: _item = $cell;
 
 	type DnDHandler = (e: CustomEvent<DndEvent<Item>>) => void;
 
@@ -16,8 +18,8 @@
 	};
 
 	const onFinalize: DnDHandler = (e) => {
-		item = e.detail.items[0];
-		_item = item;
+		$cell = e.detail.items[0];
+		_item = $cell;
 	};
 
 	$: considering = _item?.[SHADOW_ITEM_MARKER_PROPERTY_NAME];
@@ -30,7 +32,7 @@
 	use:dndzone={{
 		items,
 		flipDurationMs,
-		dropFromOthersDisabled: typeof item !== 'undefined',
+		dropFromOthersDisabled: typeof $cell !== 'undefined',
 		dropTargetStyle: {}
 	}}
 	on:consider={onConsider}
