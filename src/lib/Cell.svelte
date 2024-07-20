@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+	export type CellStore = Writable<Item | undefined>;
+</script>
+
 <script lang="ts">
 	import { dndzone, type DndEvent, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 	import type { Item } from './item';
@@ -5,7 +9,7 @@
 	import { flip } from 'svelte/animate';
 	import type { Writable } from 'svelte/store';
 
-	export let cell: Writable<Item | undefined>;
+	export let cell: CellStore;
 
 	export let flipDurationMs = 150;
 
@@ -27,7 +31,7 @@
 </script>
 
 <div
-	class="aspect-square h-12 w-12 rounded-md bg-stone-900 transition-colors duration-100"
+	class="aspect-square rounded-md bg-stone-900 transition-colors duration-100"
 	class:bg-stone-600={considering}
 	use:dndzone={{
 		items,
