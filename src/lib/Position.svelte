@@ -11,8 +11,8 @@
 </script>
 
 <div
-	class="aspect-square h-12 w-12 rounded-md bg-stone-700 transition-colors duration-100"
-	class:bg-stone-800={$isDropping}
+	class="aspect-square h-12 w-12 rounded-md bg-stone-900 transition-colors duration-100"
+	class:bg-stone-600={$isDropping}
 	use:dndzone={{
 		items: $items,
 		flipDurationMs,

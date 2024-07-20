@@ -27,7 +27,7 @@
 	<div class="grid w-full grid-cols-3 gap-4">
 		<div />
 		<div
-			class="grid h-fit w-fit grid-cols-6 grid-rows-2 gap-1 place-self-center rounded-lg bg-stone-700 p-2"
+			class="grid h-fit w-fit grid-cols-6 grid-rows-2 gap-1 place-self-center rounded-lg bg-stone-900 p-2"
 			use:dndzone={{ items: $bank, flipDurationMs, dropTargetStyle: {} }}
 			on:consider={(e) => ($bank = e.detail.items)}
 			on:finalize={(e) => ($bank = e.detail.items)}
@@ -40,7 +40,7 @@
 		</div>
 
 		<button
-			class="place-self-start self-center rounded-md bg-stone-700 px-4 py-2 transition-colors hover:bg-stone-600 active:bg-stone-700"
+			class="place-self-start self-center rounded-md bg-stone-800 px-4 py-2 transition-colors hover:bg-stone-700 active:bg-stone-800"
 			on:click={shuffleBank}>Shuffle</button
 		>
 	</div>
