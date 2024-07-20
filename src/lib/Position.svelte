@@ -1,43 +1,26 @@
-<script lang="ts" context="module">
-	type Position = {
-		row: number;
-		col: number;
-		item?: Item;
-	};
-</script>
-
 <script lang="ts">
-	import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME, type DndEvent } from 'svelte-dnd-action';
+	import { dndzone } from 'svelte-dnd-action';
 	import Letter from './Letter.svelte';
-	import type { Item } from './item';
-	import type { Writable } from 'svelte/store';
+	import type { PositionStore } from './Position.store';
 
-	export let position: Writable<Position>;
+	export let position: PositionStore;
 
 	export let flipDurationMs: number | undefined = undefined;
 
-	$: items = $position.item ? [$position.item] : [];
-	$: isDropping = $position.item?.[SHADOW_ITEM_MARKER_PROPERTY_NAME];
-
-	const onConsiderOrFinalize = (e: CustomEvent<DndEvent<Item>>): void => {
-		position.update((p) => {
-			p.item = e.detail.items[0];
-			return p;
-		});
-	};
+	const { items, isDropping, placeItem } = position;
 </script>
 
 <div
 	class="aspect-square h-12 w-12 rounded-md bg-stone-700 transition-colors duration-100"
-	class:bg-stone-800={isDropping}
+	class:bg-stone-800={$isDropping}
 	use:dndzone={{
-		items,
+		items: $items,
 		flipDurationMs,
-		dropFromOthersDisabled: items.length > 0,
+		dropFromOthersDisabled: $items.length > 0,
 		dropTargetStyle: {}
 	}}
-	on:consider={onConsiderOrFinalize}
-	on:finalize={onConsiderOrFinalize}
+	on:consider={(e) => placeItem(e.detail.items[0])}
+	on:finalize={(e) => placeItem(e.detail.items[0])}
 >
 	{#if $position.item}
 		<Letter>{$position.item.letter}</Letter>

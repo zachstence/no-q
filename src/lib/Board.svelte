@@ -1,61 +1,24 @@
 <script lang="ts">
-	import { nanoid } from 'nanoid';
-
 	import Position from './Position.svelte';
 	import { dndzone } from 'svelte-dnd-action';
 	import { flip } from 'svelte/animate';
 	import Letter from './Letter.svelte';
-	import { derived, writable } from 'svelte/store';
-	import type { Item } from './item';
+	import { BoardStore } from './Board.store';
 
 	let clazz = '';
 	export { clazz as class };
 
-	export let letters: string[];
+	export let store: BoardStore;
 
-	const bank = writable<Item[]>(letters.map((letter) => ({ id: nanoid(), letter })));
-	type Board = {
-		[row: number]: {
-			[col: number]: Item;
-		};
-	};
-
-	type PositionStoreValue = {
-		row: number;
-		col: number;
-		item?: Item;
-	};
-	const createPositionStore = (row: number, col: number) =>
-		writable<PositionStoreValue>({ row, col });
-
-	const positionStores = Array.from({ length: 12 }).flatMap((_, r) =>
-		Array.from({ length: 12 }).map((_, c) => createPositionStore(r, c))
-	);
-
-	const board = derived(positionStores, ($positionStores) => {
-		const board: Board = {};
-		$positionStores.forEach((p) => {
-			if (!p.item) return;
-			if (!board[p.row]) board[p.row] = {};
-			board[p.row][p.col] = p.item;
-		});
-		return board;
-	});
+	const { bank, positions, shuffleBank } = store;
 
 	const flipDurationMs = 150;
-
-	const shuffleBank = (): void => {
-		$bank = $bank.sort(() => Math.random() - 0.5);
-	};
-
-	$: console.log({ bank: $bank });
-	$: console.log({ board: $board });
 </script>
 
 <div class="{clazz} flex flex-col items-center gap-6">
 	<!-- Grid -->
 	<div class="grid h-fit w-fit grid-cols-12 grid-rows-12 gap-1">
-		{#each positionStores as position}
+		{#each positions as position}
 			<Position {flipDurationMs} {position} />
 		{/each}
 	</div>
