@@ -2,8 +2,11 @@
 	import { dndzone, type DndEvent, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 	import type { Item } from './item';
 	import Letter from './Letter.svelte';
+	import { flip } from 'svelte/animate';
 
 	export let item: Item | undefined = undefined;
+	export let flipDurationMs = 150;
+
 	let _item: Item | undefined = item;
 
 	type DnDHandler = (e: CustomEvent<DndEvent<Item>>) => void;
@@ -26,6 +29,7 @@
 	class:bg-stone-600={considering}
 	use:dndzone={{
 		items,
+		flipDurationMs,
 		dropFromOthersDisabled: typeof item !== 'undefined',
 		dropTargetStyle: {}
 	}}
@@ -33,8 +37,10 @@
 	on:finalize={onFinalize}
 >
 	{#each items as item (item.id)}
-		<Letter>
-			{item.letter}
-		</Letter>
+		<div animate:flip={{ duration: flipDurationMs }}>
+			<Letter>
+				{item.letter}
+			</Letter>
+		</div>
 	{/each}
 </div>
