@@ -8,6 +8,9 @@
 	import { derived, writable } from 'svelte/store';
 	import type { Item } from './item';
 
+	let clazz = '';
+	export { clazz as class };
+
 	export let letters: string[];
 
 	const bank = writable<Item[]>(letters.map((letter) => ({ id: nanoid(), letter })));
@@ -49,7 +52,7 @@
 	$: console.log({ board: $board });
 </script>
 
-<div class="flex flex-col items-center gap-6">
+<div class="{clazz} flex flex-col items-center gap-6">
 	<!-- Grid -->
 	<div class="grid h-fit w-fit grid-cols-12 grid-rows-12 gap-1">
 		{#each positionStores as position}
@@ -58,10 +61,10 @@
 	</div>
 
 	<!-- Bank -->
-	<div class="grid w-full grid-cols-3">
+	<div class="grid w-full grid-cols-3 gap-4">
 		<div />
 		<div
-			class="grid h-fit w-fit grid-cols-6 grid-rows-2 gap-1 place-self-center rounded-lg bg-gray-100 p-4"
+			class="grid h-fit w-fit grid-cols-6 grid-rows-2 gap-1 place-self-center rounded-lg bg-stone-700 p-2"
 			use:dndzone={{ items: $bank, flipDurationMs, dropTargetStyle: {} }}
 			on:consider={(e) => ($bank = e.detail.items)}
 			on:finalize={(e) => ($bank = e.detail.items)}
@@ -74,7 +77,7 @@
 		</div>
 
 		<button
-			class="place-self-start self-center rounded-md bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-200 active:bg-gray-300"
+			class="place-self-start self-center rounded-md bg-stone-700 px-4 py-2 transition-colors hover:bg-stone-600 active:bg-stone-700"
 			on:click={shuffleBank}>Shuffle</button
 		>
 	</div>

@@ -28,8 +28,8 @@
 </script>
 
 <div
-	class="aspect-square h-16 w-16 rounded-md bg-gray-100 transition-colors duration-100"
-	class:bg-gray-200={isDropping}
+	class="aspect-square h-12 w-12 rounded-md bg-stone-700 transition-colors duration-100"
+	class:bg-stone-800={isDropping}
 	use:dndzone={{
 		items,
 		flipDurationMs,

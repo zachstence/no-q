@@ -4,4 +4,6 @@
 	const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 </script>
 
-<Board {letters} />
+<div class="flex h-screen w-screen items-center justify-center">
+	<Board {letters} />
+</div>
