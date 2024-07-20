@@ -10,7 +10,9 @@
 
 	export let store: BoardStore;
 
-	const { bank, positions, shuffleBank } = store;
+	const { bank, positions, words, shuffleBank } = store;
+
+	$: console.log({ $words });
 
 	const flipDurationMs = 150;
 </script>
