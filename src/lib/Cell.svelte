@@ -31,8 +31,9 @@
 </script>
 
 <div
-	class="aspect-square h-12 w-12 rounded-md bg-stone-900 transition-colors duration-100"
-	class:bg-stone-600={considering}
+	class="aspect-square h-12 w-12 rounded-md transition-colors duration-100"
+	class:bg-stone-900={!considering}
+	class:bg-stone-700={considering}
 	use:dndzone={{
 		items,
 		flipDurationMs,
