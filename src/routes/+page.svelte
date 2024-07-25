@@ -1,5 +1,8 @@
 <script lang="ts">
-	import Board from '$lib/Board.svelte';
+	import Game from '$lib/Game.svelte';
+	import { createGameStores } from '$lib/game-stores';
+
+	const stores = createGameStores(['c', 'p', 'r', 'o', 'l', 'd', 'g', 'a', 'm', 'e', 's', 'y']);
 </script>
 
-<Board letters={['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']} />
+<Game {stores} />
