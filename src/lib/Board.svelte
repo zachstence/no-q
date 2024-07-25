@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { get } from 'svelte/store';
 	import { nanoid } from 'nanoid';
 	import { derived, writable } from 'svelte/store';
 	import type { CellStore } from './Cell.svelte';
 	import Grid from './Grid.svelte';
+	import Word from './Word.svelte';
+	import { WordStore } from './WordStore';
 
 	export let letters: string[];
 
@@ -43,7 +46,7 @@
 					.filter((word) => word.length > 2);
 				words.forEach((word) => uniqueWords.add(word));
 			}
-			return Array.from(uniqueWords);
+			return Array.from(uniqueWords).map((word) => new WordStore(word));
 		}
 	);
 </script>
@@ -53,9 +56,11 @@
 		<Grid cells={board} />
 		<Grid cells={bank} />
 	</div>
-	<div class="flex flex-col">
-		{#each $words as word}
-			<span>{word}</span>
-		{/each}
-	</div>
+	<table class="h-fit">
+		<tbody>
+			{#each $words as word}
+				<Word {word} />
+			{/each}
+		</tbody>
+	</table>
 </div>
