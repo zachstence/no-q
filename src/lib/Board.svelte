@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { get } from 'svelte/store';
+	import { get, type Readable } from 'svelte/store';
 	import { nanoid } from 'nanoid';
 	import { derived, writable } from 'svelte/store';
 	import type { CellStore } from './Cell.svelte';
@@ -49,6 +49,16 @@
 			return Array.from(uniqueWords).map((word) => new WordStore(word));
 		}
 	);
+
+	let allValid: Readable<boolean>;
+	$: {
+		console.log('creating');
+		allValid = derived(
+			$words.map((word) => word.isValid),
+			(valids) => valids.every(Boolean)
+		);
+	}
+	$: console.log({ $allValid });
 </script>
 
 <div class="gao-4 flex flex-row">
