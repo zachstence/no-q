@@ -1,8 +1,14 @@
 <script lang="ts">
 	import Game from '$lib/Game.svelte';
-	import { createGameStores } from '$lib/game-stores';
+	import { createGameStores, type GameStores } from '$lib/game-stores';
+	import { onMount } from 'svelte';
 
-	const stores = createGameStores(['c', 'p', 'r', 'o', 'l', 'd', 'g', 'a', 'm', 'e', 's', 'y']);
+	let stores: GameStores | undefined;
+	onMount(() => {
+		stores = createGameStores(['c', 'p', 'r', 'o', 'l', 'd', 'g', 'a', 'm', 'e', 's', 'y']);
+	});
 </script>
 
-<Game {stores} />
+{#if stores}
+	<Game {stores} />
+{/if}

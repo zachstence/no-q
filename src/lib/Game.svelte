@@ -4,7 +4,8 @@
 
 	export let stores: GameStores;
 
-	$: validWords = stores.validWords;
+	$: words = stores.words;
+	$: solved = stores.solved;
 </script>
 
 <div class="gao-4 flex flex-row">
@@ -13,7 +14,10 @@
 		<Grid cells={stores.bank} />
 	</div>
 	<div class="flex flex-col">
-		{#each $validWords as word}
+		{#if $solved}
+			<div class="text-2xl font-bold text-green-400">Solved!</div>
+		{/if}
+		{#each $words as word}
 			<span>{word}</span>
 		{/each}
 	</div>
