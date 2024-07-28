@@ -1,0 +1,9 @@
+.git
+.svelte-kit
+build
+node_modules
+.gitignore
+.prettierignore
+.pretterrc
+eslint.config.js
+README.md
