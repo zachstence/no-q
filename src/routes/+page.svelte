@@ -1,14 +1,18 @@
 <script lang="ts">
 	import Game from '$lib/Game.svelte';
 	import { createGameStores, type GameStores } from '$lib/game-stores';
-	import { onMount } from 'svelte';
+	import { roll } from '$lib/roll';
 
 	let stores: GameStores | undefined;
-	onMount(() => {
-		stores = createGameStores(['c', 'p', 'r', 'o', 'l', 'd', 'g', 'a', 'm', 'e', 's', 'y']);
-	});
+
+	const newGame = () => {
+		const letters = roll();
+		stores = createGameStores(letters);
+	};
 </script>
 
 {#if stores}
 	<Game {stores} />
+{:else}
+	<button on:click={newGame}>New Game</button>
 {/if}
