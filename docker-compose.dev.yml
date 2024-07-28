@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  qless:
+    image: node:20
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - 5173:5173
+    command: bash -c "npm run dev -- --host"
+  
+  db:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password
+  
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
