@@ -31,6 +31,10 @@ Tournaments
 
 ## Quality of Life
 
+Load solution from image of QLess dice IRL
+
+Load roll from image of QLess dice IRL
+
 ### Gameplay
 Show word definitions
 
