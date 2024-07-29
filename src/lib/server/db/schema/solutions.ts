@@ -19,5 +19,7 @@ export const solutions = pgTable('solutions', {
 	discovered_by: text('discovered_by')
 		.references(() => users.id)
 		.notNull(),
-	created_at: timestamp('created_at', { mode: 'date' }).$defaultFn(() => new Date())
+	created_at: timestamp('created_at', { mode: 'date', withTimezone: true })
+		.$defaultFn(() => new Date())
+		.notNull()
 });

@@ -15,6 +15,13 @@
       "when": 1722209792897,
       "tag": "0001_bumpy_amphibian",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1722216913513,
+      "tag": "0002_dapper_dreadnoughts",
+      "breakpoints": true
     }
   ]
 }

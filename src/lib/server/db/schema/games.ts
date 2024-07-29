@@ -15,7 +15,9 @@ export const games = pgTable('games', {
 		.references(() => rolls.id)
 		.notNull(),
 	solution: text('solution').references(() => solutions.id),
-	created_at: timestamp('created_at', { mode: 'date' }).$defaultFn(() => new Date())
+	created_at: timestamp('created_at', { mode: 'date', withTimezone: true })
+		.$defaultFn(() => new Date())
+		.notNull()
 });
 
 export type Game = InferSelectModel<typeof games>;
