@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  qless:
+  no-q:
     image: node:20
     restart: unless-stopped
     working_dir: /app
