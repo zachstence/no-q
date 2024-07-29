@@ -8,6 +8,7 @@ import { db, users } from '$lib/server/db';
 
 // TODO: check if username is already used
 // TODO auto lowercase username
+// TODO use SvelteKit Superforms
 
 export const actions: Actions = {
 	default: async (event) => {

@@ -13,7 +13,7 @@ const DICE: [string, string, string, string, string, string][] = [
 	['y', 'n', 'i', 'n', 'o', 'i']
 ];
 
-export const roll = (): string[] =>
+export const rollLetters = (): string[] =>
 	DICE.reduce<string[]>((acc, die) => {
 		acc.push(die[Math.floor(Math.random() * 6)]);
 		return acc;

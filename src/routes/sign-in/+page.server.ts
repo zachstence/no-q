@@ -7,6 +7,7 @@ import { lucia } from '$lib/server/auth';
 import { db, users } from '$lib/server/db';
 
 // TODO rate-limiting to prevent abuse of login / brute forcing passwords
+// TODO use SvelteKit Superforms
 
 export const actions: Actions = {
 	default: async (event) => {
