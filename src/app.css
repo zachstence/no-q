@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-	@apply bg-stone-950 text-stone-100;
-}
-
 @font-face {
 	font-family: 'Dosis';
 	font-style: normal;

@@ -32,8 +32,8 @@
 
 <div
 	class="aspect-square h-12 w-12 rounded-md transition-colors duration-100"
-	class:bg-stone-900={!considering}
-	class:bg-stone-700={considering}
+	class:bg-base-200={!considering}
+	class:bg-base-300={considering}
 	use:dndzone={{
 		items,
 		flipDurationMs,

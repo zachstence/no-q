@@ -6,20 +6,19 @@
 	export let data: PageServerData;
 </script>
 
-<h2 class="mb-2 text-lg font-bold">My Games</h2>
+<h2 class="mb-2 text-xl font-bold">My Games</h2>
 <div class="flex flex-col gap-2">
 	{#each data.games as game (game.id)}
-		<div class="group flex flex-row items-center justify-between gap-4 bg-neutral-800 px-3 py-1">
+		<div class="bg-base-300 group flex flex-row items-center justify-between gap-4 rounded-md p-3">
 			<div class="flex flex-col">
-				<div class="font-display font-semibold uppercase tracking-widest text-neutral-100">
+				<div class="font-display text-lg font-semibold uppercase tracking-widest">
 					{game.roll.letters.join('')}
 				</div>
-				<div class="text-neutral-500">{formatRelative(game.created_at, new Date())}</div>
+				<div class="text-base-content/50 text-sm">
+					{formatRelative(game.created_at, new Date())}
+				</div>
 			</div>
-			<a
-				class="flex flex-row items-center gap-2 rounded-md bg-neutral-700 px-3 py-1.5 transition-all hover:bg-neutral-600 active:bg-neutral-700/80 group-hover:opacity-100"
-				href={`/play/${game.id}`}>Play <IconArrowNarrowRight /></a
-			>
+			<a class="btn btn-md btn-primary" href={`/play/${game.id}`}>Play <IconArrowNarrowRight /></a>
 		</div>
 	{/each}
 </div>
