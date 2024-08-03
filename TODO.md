@@ -97,3 +97,16 @@ What is the average word length in solutions?
 Show metrics on profile
 
 Leaderboards (filterable by time: daily, all time, custom filter)
+
+## Inspiration from MonkeyType
+Heatmap showing number of games completed on each day like GitHub commits
+
+Games started
+
+Games completed
+
+Total time playing games
+
+XP leveling system?
+
+Current version and changelog
