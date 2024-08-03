@@ -5,7 +5,7 @@ export const check = async (word: string): Promise<boolean> => {
 		return cache[word];
 	}
 
-	const response = await fetch(`/check/${word}`);
+	const response = await fetch(`/api/check/${word}`);
 	const { isValid } = await response.json();
 
 	cache[word] = isValid;
