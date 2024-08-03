@@ -9,7 +9,7 @@ const CreateGameSchema = z.object({
 });
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-	if (!locals.session) return new Response('', { status: 401 });
+	if (!locals.session) return error(401);
 
 	const body = await request.json();
 	const { rollId } = CreateGameSchema.parse(body);
