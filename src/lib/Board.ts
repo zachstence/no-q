@@ -1,58 +1,90 @@
-type ArrayBoard = (string | undefined)[][];
-type ObjectBoard = Record<number, Record<number, string>>;
+import { z } from 'zod';
+
+const SparseBoardSchema = z.array(z.array(z.string().length(1).optional()));
+type SparseBoard = z.infer<typeof SparseBoardSchema>;
+const isSparseBoard = (board: unknown): board is SparseBoard =>
+	SparseBoardSchema.safeParse(board).success;
+
+const IntegerStringSchema = z.coerce.number().int().nonnegative();
+const DenseBoardSchema = z.record(
+	IntegerStringSchema,
+	z.record(IntegerStringSchema, z.string().length(1))
+);
+type DenseBoard = z.infer<typeof DenseBoardSchema>;
+const isDenseBoard = (board: unknown): board is DenseBoard =>
+	DenseBoardSchema.safeParse(board).success;
 
 export class Board {
-	private arrayBoard: ArrayBoard;
+	#sparse?: SparseBoard;
 
-	private objectBoard: ObjectBoard;
+	#dense?: DenseBoard;
 
-	constructor(board: ObjectBoard | ArrayBoard) {
-		if (Array.isArray(board)) {
-			this.arrayBoard = board;
-			this.objectBoard = Board.arrayToObject(board);
+	get sprarse(): SparseBoard {
+		if (!this.#sparse) {
+			this.#sparse = Board.denseToSparse(this.#dense!);
+		}
+		return this.#sparse;
+	}
+
+	get dense(): DenseBoard {
+		if (!this.#dense) {
+			this.#dense = Board.sparseToDense(this.#sparse!);
+		}
+		return this.#dense;
+	}
+
+	private constructor(board: DenseBoard | SparseBoard) {
+		if (isSparseBoard(board)) {
+			this.#sparse = board;
+		} else if (isDenseBoard(board)) {
+			this.#dense = board;
 		} else {
-			this.objectBoard = board;
-			this.arrayBoard = Board.objectToArray(board);
+			throw new Error('Invalid board');
 		}
 	}
 
-	asArray(): ArrayBoard {
-		return this.arrayBoard;
+	static create(board: unknown): Board | undefined {
+		try {
+			return new Board(board as DenseBoard | SparseBoard);
+		} catch (e) {
+			console.error('Cant create board', {
+				e,
+				board,
+				sparseError: SparseBoardSchema.safeParse(board).error,
+				denseError: DenseBoardSchema.safeParse(board).error
+			});
+		}
 	}
 
-	asObject(): ObjectBoard {
-		return this.objectBoard;
-	}
+	private static denseToSparse(dense: DenseBoard): SparseBoard {
+		const numRows = Object.keys(dense).length;
+		const numCols = Math.max(...Object.values(dense).map((row) => Object.keys(row).length));
 
-	private static objectToArray(board: ObjectBoard): ArrayBoard {
-		const numRows = Object.keys(board).length;
-		const numCols = Math.max(...Object.values(board).map((row) => Object.keys(row).length));
-
-		const arrayBoard = Array.from({ length: numRows }, () =>
+		const sparse = Array.from({ length: numRows }, () =>
 			Array.from({ length: numCols }, () => undefined)
-		) as ArrayBoard;
+		) as SparseBoard;
 
 		for (let r = 0; r < numRows; r++) {
 			for (let c = 0; c < numCols; c++) {
-				arrayBoard[r][c] = board[r][c] ?? undefined;
+				sparse[r][c] = dense[r][c] ?? undefined;
 			}
 		}
 
-		return arrayBoard;
+		return sparse;
 	}
 
-	private static arrayToObject(board: ArrayBoard): ObjectBoard {
-		const objectBoard: ObjectBoard = {};
+	private static sparseToDense(sparse: SparseBoard): DenseBoard {
+		const dense: DenseBoard = {};
 
-		for (let r = 0; r < board.length; r++) {
-			for (let c = 0; c < board[r].length; c++) {
-				if (typeof board[r][c] !== 'undefined') {
-					objectBoard[r] ??= {};
-					objectBoard[r][c] = board[r][c] as string;
+		for (let r = 0; r < sparse.length; r++) {
+			for (let c = 0; c < sparse[r].length; c++) {
+				if (typeof sparse[r][c] !== 'undefined') {
+					dense[r] ??= {};
+					dense[r][c] = sparse[r][c] as string;
 				}
 			}
 		}
 
-		return objectBoard;
+		return dense;
 	}
 }

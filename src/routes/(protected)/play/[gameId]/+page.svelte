@@ -14,7 +14,7 @@
 
 	let saveStatus: 'success' | 'error' | undefined;
 	const saveResult = async (): Promise<void> => {
-		const body = new Board(board.map((r) => r.map((i) => get(i)?.letter))).asObject();
+		const body = Board.create(board.map((r) => r.map((i) => get(i)?.letter)))?.dense;
 		const response = await fetch(`/api/games/${data.game.id}/solve`, {
 			method: 'POST',
 			body: JSON.stringify(body)
