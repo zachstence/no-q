@@ -1,7 +1,6 @@
 import { jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 import { id } from '../id';
-import { rolls } from './rolls';
 import { users } from './users';
 
 type Board = {
@@ -12,10 +11,7 @@ type Board = {
 
 export const solutions = pgTable('solutions', {
 	id: text('id').primaryKey().$defaultFn(id),
-	roll: text('roll')
-		.references(() => rolls.id)
-		.notNull(),
-	board: jsonb('solution').$type<Board>().notNull().unique(),
+	board: jsonb('board').$type<Board>().notNull().unique(),
 	discovered_by: text('discovered_by')
 		.references(() => users.id)
 		.notNull(),

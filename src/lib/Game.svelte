@@ -14,9 +14,6 @@
 		<Grid cells={stores.bank} />
 	</div>
 	<div class="flex flex-col">
-		{#if $solved}
-			<div class="text-2xl font-bold text-green-400">Solved!</div>
-		{/if}
 		{#each $words as word}
 			<span>{word}</span>
 		{/each}

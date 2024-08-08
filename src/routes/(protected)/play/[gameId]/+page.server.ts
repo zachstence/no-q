@@ -7,13 +7,18 @@ import { error } from '@sveltejs/kit';
 export const load: PageServerLoad = async ({ params, locals }) => {
 	if (!locals.session) return error(401);
 
-	const [game] = await db
+	const [result] = await db
 		.select({ game: games, roll: rolls })
 		.from(games)
 		.where(and(eq(games.id, params.gameId), eq(games.creator, locals.session.userId)))
 		.innerJoin(rolls, eq(games.roll, rolls.id));
 
-	if (!game) return error(404, 'Game not found');
+	if (!result) return error(404, 'Game not found');
 
-	return { game };
+	return {
+		game: {
+			...result.game,
+			roll: result.roll
+		}
+	};
 };
