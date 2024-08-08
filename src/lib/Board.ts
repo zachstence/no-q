@@ -85,6 +85,27 @@ export class Board {
 			}
 		}
 
-		return dense;
+		return Board.shiftDense(dense);
+	}
+
+	private static shiftDense(board: DenseBoard): DenseBoard {
+		const rows = Object.keys(board).map(Number);
+		const cols = rows.flatMap((row) => Object.keys(board[row]).map(Number));
+
+		const minRow = Math.min(...rows);
+		const minCol = Math.min(...cols);
+
+		const shifted: DenseBoard = {};
+
+		for (const row of rows) {
+			const newRow = row - minRow;
+			for (const col of cols) {
+				const newCol = col - minCol;
+				shifted[newRow] ??= {};
+				shifted[newRow][newCol] = board[row][col];
+			}
+		}
+
+		return shifted;
 	}
 }

@@ -13,23 +13,25 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 	if (!game) return error(404, 'Game not found');
 
 	const body = await request.json();
-	const board = Board.create(body);
+	const board = Board.create(body)?.dense;
 	if (!board) {
 		console.error('Invalid board', body);
 		return error(400, { message: 'Invalid board' });
 	}
 
-	// TODO we probably need to shift the board to the top left corner before saving it
-	// so that we can compare with other solutions for uniqueness
+	// Get solution if it has already been discovered
+	let [solution] = await db.select().from(solutions).where(eq(solutions.board, board));
 
-	const [solution] = await db
-		.insert(solutions)
-		.values({
-			board: board.dense,
-			// TODO check for uniqueness of solution before setting discovered_by
-			discovered_by: locals.session.userId
-		})
-		.returning();
+	// Solution has not been discovered yet, so create it
+	if (!solution) {
+		[solution] = await db
+			.insert(solutions)
+			.values({
+				board,
+				discovered_by: locals.session.userId
+			})
+			.returning();
+	}
 
 	await db.update(games).set({ solution: solution.id }).where(eq(games.id, gameId));
 

@@ -2,6 +2,7 @@ import { jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 import { id } from '../id';
 import { users } from './users';
+import type { InferSelectModel } from 'drizzle-orm';
 
 type Board = {
 	[row: number]: {
@@ -19,3 +20,5 @@ export const solutions = pgTable('solutions', {
 		.$defaultFn(() => new Date())
 		.notNull()
 });
+
+export type Solution = InferSelectModel<typeof solutions>;
