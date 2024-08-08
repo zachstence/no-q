@@ -3,7 +3,7 @@
 	import type { PageServerData } from './$types';
 	import Game from '$lib/Game.svelte';
 	import { createGameStores } from '$lib/game-stores';
-	import { Board } from '$lib/Board';
+	import { toDense } from '$lib/Board';
 	import { get } from 'svelte/store';
 
 	export let data: PageServerData;
@@ -14,7 +14,7 @@
 
 	let saveStatus: 'success' | 'error' | undefined;
 	const saveResult = async (): Promise<void> => {
-		const body = Board.create(board.map((r) => r.map((i) => get(i)?.letter)))?.dense;
+		const body = toDense(board.map((r) => r.map((i) => get(i)?.letter)));
 		const response = await fetch(`/api/games/${data.game.id}/solve`, {
 			method: 'POST',
 			body: JSON.stringify(body)

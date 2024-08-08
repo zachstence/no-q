@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { db, games, solutions } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
-import { Board } from '$lib/Board';
+import { DenseBoardSchema } from '$lib/Board';
 
 export const POST: RequestHandler = async ({ locals, params, request }) => {
 	if (!locals.session) return error(401);
@@ -13,11 +13,12 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 	if (!game) return error(404, 'Game not found');
 
 	const body = await request.json();
-	const board = Board.create(body)?.dense;
-	if (!board) {
+	const parse = DenseBoardSchema.safeParse(body);
+	if (!parse.success) {
 		console.error('Invalid board', body);
 		return error(400, { message: 'Invalid board' });
 	}
+	const board = parse.data;
 
 	// Get solution if it has already been discovered
 	let [solution] = await db.select().from(solutions).where(eq(solutions.board, board));
