@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   no-q:
     image: node:20
