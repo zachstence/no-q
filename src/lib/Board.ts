@@ -10,17 +10,19 @@ export const DenseBoardSchema = z.record(
 	IntegerStringSchema,
 	z.record(IntegerStringSchema, z.string().length(1))
 );
-type DenseBoard = z.infer<typeof DenseBoardSchema>;
+export type DenseBoard = z.infer<typeof DenseBoardSchema>;
 export const isDenseBoard = (board: unknown): board is DenseBoard =>
 	DenseBoardSchema.safeParse(board).success;
 
-export const toSparse = (board: DenseBoard | SparseBoard): SparseBoard => {
+export type Board = SparseBoard | DenseBoard;
+
+export const toSparse = (board: Board): SparseBoard => {
 	if (isSparseBoard(board)) return board;
 	if (isDenseBoard(board)) return denseToSparse(board);
 	return [];
 };
 
-export const toDense = (board: DenseBoard | SparseBoard): DenseBoard => {
+export const toDense = (board: Board): DenseBoard => {
 	if (isDenseBoard(board)) return board;
 	if (isSparseBoard(board)) return sparseToDense(board);
 	return {};

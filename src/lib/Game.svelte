@@ -10,8 +10,8 @@
 
 <div class="gao-4 flex flex-row">
 	<div class="flex flex-col items-center gap-4">
-		<Grid cells={stores.board} />
-		<Grid cells={stores.bank} />
+		<Grid cells={stores.boardCells} />
+		<Grid cells={stores.bankCells} />
 	</div>
 	<div class="flex flex-col">
 		{#each $words as word}

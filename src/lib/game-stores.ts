@@ -1,30 +1,66 @@
-import { derived, writable, type Readable } from 'svelte/store';
+import { derived, get, writable, type Readable } from 'svelte/store';
 import type { CellStore } from './Cell.svelte';
 import { nanoid } from 'nanoid';
 import { check } from './check';
 import { asyncDerived } from './asyncDerived';
 import type { Item } from './item';
+import type { DenseBoard } from './Board';
 
 export type GameStores = {
-	bank: CellStore[][];
-	board: CellStore[][];
+	bankCells: CellStore[][];
+	boardCells: CellStore[][];
+	board: Readable<DenseBoard>;
 	words: Readable<string[]>;
 	solved: Readable<boolean>;
 };
 
-export const createGameStores = (letters: string[]): GameStores => {
+export const createGameStores = (letters: string[], savedBoard: DenseBoard): GameStores => {
 	const items: Item[] = letters.map((letter) => ({ id: nanoid(), letter }));
 
-	const bank: CellStore[][] = Array.from({ length: 2 }).map((_, r) =>
+	const bankCells: CellStore[][] = Array.from({ length: 2 }).map((_, r) =>
 		Array.from({ length: 6 }).map((_, c) => writable(items[r * 6 + c]))
 	);
 
-	const board: CellStore[][] = Array.from({ length: 12 }).map(() =>
+	const boardCells: CellStore[][] = Array.from({ length: 12 }).map(() =>
 		Array.from({ length: 12 }).map(() => writable(undefined))
 	);
 
+	// Move items from bankCells to boardCells based on savedBoard
+	Object.entries(savedBoard).forEach(([r, row]) => {
+		Object.entries(row).forEach(([c, letter]) => {
+			const boardR = parseInt(r);
+			const boardC = parseInt(c);
+
+			const bankCoords = findIndex2D(bankCells, (cell) => get(cell)?.letter === letter);
+			if (!bankCoords) {
+				throw new Error(
+					`savedBoard contains a letter '${letter}' at position ${boardR},${boardC} not in the bank`
+				);
+			}
+			const { r: bankR, c: bankC } = bankCoords;
+
+			const item = get(bankCells[bankR][bankC]);
+			bankCells[bankR][bankC].set(undefined);
+			boardCells[boardR][boardC].set(item);
+		});
+	});
+
+	const board = derived(
+		boardCells.flatMap((r) => r),
+		($cells) => {
+			return $cells.reduce<DenseBoard>((acc, cell, i) => {
+				if (!cell) return acc;
+				const r = Math.floor(i / 12);
+				const c = i % 12;
+				if (!acc[r]) acc[r] = {};
+				acc[r][c] = cell?.letter;
+				return acc;
+			}, {});
+		}
+	);
+
 	const wordsWithItems: Readable<{ word: string; items: Item[] }[]> = asyncDerived(
-		board.flatMap((row) => row),
+		boardCells.flatMap((row) => row),
 		async ($cells) => {
 			const groupedItems: Item[][] = [];
 
@@ -86,7 +122,8 @@ export const createGameStores = (letters: string[]): GameStores => {
 	);
 
 	return {
-		bank,
+		bankCells,
+		boardCells,
 		board,
 		words,
 		solved
@@ -106,4 +143,20 @@ const groupItems = (items: (Item | undefined)[]): Item[][] => {
 		},
 		[[]]
 	);
+};
+
+const findIndex2D = <T = unknown>(
+	arr: T[][],
+	predicate: (value: T) => boolean
+): { r: number; c: number } | undefined => {
+	for (let r = 0; r < arr.length; r++) {
+		const row = arr[r];
+		for (let c = 0; c < row.length; c++) {
+			const value = row[c];
+			if (predicate(value)) {
+				return { r, c };
+			}
+		}
+	}
+	return undefined;
 };
