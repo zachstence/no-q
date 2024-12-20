@@ -9,119 +9,119 @@ importers:
   .:
     dependencies:
       '@lucia-auth/adapter-drizzle':
-        specifier: ^1.0.7
+        specifier: ^1.1.0
         version: 1.1.0(drizzle-orm@0.32.2(postgres@3.4.5))(lucia@3.2.2)
       '@node-rs/argon2':
         specifier: ^1.8.3
         version: 1.8.3
       drizzle-orm:
-        specifier: ^0.32.1
+        specifier: ^0.32.2
         version: 0.32.2(postgres@3.4.5)
       lucia:
-        specifier: ^3.2.0
+        specifier: ^3.2.2
         version: 3.2.2
       postgres:
-        specifier: ^3.4.4
+        specifier: ^3.4.5
         version: 3.4.5
       zod:
-        specifier: ^3.23.8
+        specifier: ^3.24.1
         version: 3.24.1
     devDependencies:
       '@scrabble-solver/dictionaries':
-        specifier: ^2.13.13
+        specifier: ^2.15.6
         version: 2.15.6
       '@scrabble-solver/types':
-        specifier: ^2.13.13
+        specifier: ^2.15.6
         version: 2.15.6
       '@sveltejs/adapter-auto':
-        specifier: ^3.0.0
+        specifier: ^3.3.1
         version: 3.3.1(@sveltejs/kit@2.13.0(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.11))(svelte@4.2.19)(vite@5.4.11))
       '@sveltejs/adapter-node':
-        specifier: ^5.2.0
+        specifier: ^5.2.11
         version: 5.2.11(@sveltejs/kit@2.13.0(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.11))(svelte@4.2.19)(vite@5.4.11))
       '@sveltejs/kit':
-        specifier: ^2.0.0
+        specifier: ^2.13.0
         version: 2.13.0(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.11))(svelte@4.2.19)(vite@5.4.11)
       '@sveltejs/vite-plugin-svelte':
-        specifier: ^3.0.0
+        specifier: ^3.1.2
         version: 3.1.2(svelte@4.2.19)(vite@5.4.11)
       '@tabler/icons-svelte':
-        specifier: ^3.11.0
+        specifier: ^3.26.0
         version: 3.26.0(svelte@4.2.19)
       '@types/eslint':
-        specifier: ^8.56.7
+        specifier: ^8.56.12
         version: 8.56.12
       autoprefixer:
-        specifier: ^10.4.19
+        specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.49)
       daisyui:
-        specifier: ^4.12.10
+        specifier: ^4.12.22
         version: 4.12.22(postcss@8.4.49)
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
       drizzle-kit:
-        specifier: ^0.23.0
+        specifier: ^0.23.2
         version: 0.23.2
       eslint:
-        specifier: ^9.0.0
+        specifier: ^9.17.0
         version: 9.17.0(jiti@1.21.7)
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@9.17.0(jiti@1.21.7))
       eslint-plugin-svelte:
-        specifier: ^2.36.0
+        specifier: ^2.46.1
         version: 2.46.1(eslint@9.17.0(jiti@1.21.7))(svelte@4.2.19)
       globals:
-        specifier: ^15.0.0
+        specifier: ^15.14.0
         version: 15.14.0
       nanoid:
-        specifier: ^5.0.7
+        specifier: ^5.0.9
         version: 5.0.9
       postcss:
-        specifier: ^8.4.38
+        specifier: ^8.4.49
         version: 8.4.49
       prettier:
-        specifier: ^3.1.1
+        specifier: ^3.4.2
         version: 3.4.2
       prettier-plugin-svelte:
-        specifier: ^3.1.2
+        specifier: ^3.3.2
         version: 3.3.2(prettier@3.4.2)(svelte@4.2.19)
       prettier-plugin-tailwindcss:
-        specifier: ^0.6.4
+        specifier: ^0.6.9
         version: 0.6.9(prettier-plugin-svelte@3.3.2(prettier@3.4.2)(svelte@4.2.19))(prettier@3.4.2)
       svelte:
-        specifier: ^4.2.7
+        specifier: ^4.2.19
         version: 4.2.19
       svelte-check:
-        specifier: ^3.6.0
+        specifier: ^3.8.6
         version: 3.8.6(postcss-load-config@4.0.2(postcss@8.4.49))(postcss@8.4.49)(svelte@4.2.19)
       svelte-dnd-action:
-        specifier: ^0.9.49
+        specifier: ^0.9.53
         version: 0.9.53(svelte@4.2.19)
       svelte-persisted-store:
         specifier: ^0.11.0
         version: 0.11.0(svelte@4.2.19)
       tailwindcss:
-        specifier: ^3.4.4
+        specifier: ^3.4.17
         version: 3.4.17
       tslib:
-        specifier: ^2.4.1
+        specifier: ^2.8.1
         version: 2.8.1
       tsx:
-        specifier: ^4.16.2
+        specifier: ^4.19.2
         version: 4.19.2
       typescript:
-        specifier: ^5.0.0
+        specifier: ^5.7.2
         version: 5.7.2
       typescript-eslint:
-        specifier: ^8.0.0-alpha.20
+        specifier: ^8.18.1
         version: 8.18.1(eslint@9.17.0(jiti@1.21.7))(typescript@5.7.2)
       vite:
-        specifier: ^5.0.3
+        specifier: ^5.4.11
         version: 5.4.11
       vitest:
-        specifier: ^1.2.0
+        specifier: ^1.6.0
         version: 1.6.0
 
 packages:
