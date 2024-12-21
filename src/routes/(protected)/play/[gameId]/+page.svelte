@@ -64,7 +64,7 @@
 
 		<button>Solve Again</button>
 		<button>New Roll</button>
-		<button>Dashboard</button>
+		<a href="/dashboard">Dashboard</a>
 		<button>Screenshot</button>
 	</div>
 </dialog>
