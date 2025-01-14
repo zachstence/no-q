@@ -18,6 +18,12 @@ Find a solution with a 2x2 of letters
 
 Streak length
 
+Solve a roll with
+- 12 unique letters (all letters different)
+- 11 unique letters
+- 10
+- ...
+
 ## Gamemodes
 Daily challenge with fastest leaderboard
 
