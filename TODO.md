@@ -35,16 +35,12 @@ Daily challenge with fastest leaderboard
 
 Tournaments
 
-## Quality of Life
-
-Load solution from image of QLess dice IRL
-
-Load roll from image of QLess dice IRL
-
 ### Gameplay
 Show word definitions
 
 Shuffle button for bank
+
+Checkpoints: IUseful when you *almost* solve a roll and want to save your spot in order to try another approach, and then return to your saved spot later
 
 ### Keybinds
 
