@@ -42,6 +42,8 @@ Shuffle button for bank
 
 Checkpoints: IUseful when you *almost* solve a roll and want to save your spot in order to try another approach, and then return to your saved spot later
 
+Gamemode that allows rerolling dice
+
 ### Keybinds
 
 #### Simple
