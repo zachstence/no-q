@@ -44,6 +44,8 @@ Checkpoints: IUseful when you *almost* solve a roll and want to save your spot i
 
 Gamemode that allows rerolling dice
 
+"Hardcode" gamemode where you don't get to see if words are valid or not until you click "Solve". If a word is invalid, you lose the game.
+
 ### Keybinds
 
 #### Simple
