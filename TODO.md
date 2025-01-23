@@ -99,6 +99,9 @@ What is the average word length in solutions?
 - Most difficult solve
 - Total solves
 - Solve streak
+- Most commonly used words
+- Average word length
+- Average number of words
 
 Show metrics on profile
 
